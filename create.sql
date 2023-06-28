@@ -1,4 +1,14 @@
-      CREATE TABLE [__EFMigrationsHistory] (
+USE master;
+GO
+
+IF DB_ID (N'$(DATABASE_NAME)') IS NOT NULL
+DROP DATABASE $(DATABASE_NAME);
+GO
+
+CREATE DATABASE $(DATABASE_NAME);
+GO
+     
+CREATE TABLE [__EFMigrationsHistory] (
           [MigrationId] nvarchar(150) NOT NULL,
           [ProductVersion] nvarchar(32) NOT NULL,
           CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
@@ -27,7 +37,4 @@
           CONSTRAINT [PK_Employee] PRIMARY KEY ([Id])
       );
       INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-      VALUES (N'20230619134943_initial', N'7.0.7');
-
-      INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-      VALUES (N'20230627031746_InitialCreate', N'7.0.7');
+      VALUES (N'20230619134943_initial', N'7.0.7'); 
