@@ -7,7 +7,7 @@ Informações:
  	- ``INSS``
 	- ``IRPF``
 	- `` FGTS``
-	- `` Beneficios Descontados ( vale alimentação, vale transporte e plano de saúde )``
+	- `` Beneficios Descontados ( vale transporte, plano dental e plano de saúde )``
 
 ### Pré-requisitos
 
