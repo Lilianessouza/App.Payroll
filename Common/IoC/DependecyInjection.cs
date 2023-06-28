@@ -24,7 +24,7 @@ public static class DependecyInjection
     public static IServiceCollection AddService(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IEmployeeService, EmployeeService>();
-        services.AddScoped<IContraChequeService, ContraChequeService>();
+        services.AddScoped<IPayslipService, PayslipService>();
         return services;
     }
 

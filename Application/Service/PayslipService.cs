@@ -7,21 +7,21 @@ using Domain.Interfaces;
 
 namespace Application.Service;
 
-public class ContraChequeService : IContraChequeService
+public class PayslipService : IPayslipService
 {
     private IEmployeeRepository _repositoryEmployee;
-    private List<LancamentosDto> _lancamentoList;
+    private List<PlaymentEntryDto> _lancamentoList;
 
-    public ContraChequeService(IEmployeeRepository repository)
+    public PayslipService(IEmployeeRepository repository)
     {
         _repositoryEmployee = repository;
-        _lancamentoList = new List<LancamentosDto>();
+        _lancamentoList = new List<PlaymentEntryDto>();
     }
 
-    public async Task<ResultService> GetAllFuncionario()
+    public async Task<ResultService> GetAllEmployee()
     {
         var employees = await _repositoryEmployee.GetAllEmployee();
-        var contraCheque = new List<ContraChequeDto>();
+        var payslip = new List<PayslipDto>();
 
         foreach (var employee in employees)
         {
@@ -29,24 +29,24 @@ public class ContraChequeService : IContraChequeService
             var descontos = await TotalDescontos();
             var salarioLiquido = employee.SalarioBruto - descontos;
 
-            var folha = new ContraChequeDto
+            var folha = new PayslipDto
             {
-                Funcionario = new EmployeeContraChequeDto { Id = employee.Id, NomeCompleto = employee.Nome + ' ' + employee.Sobrenome, Cpf = employee.CPF },
+                Employee = new EmployeePayslipDto { Id = employee.Id, NameFull = employee.Nome + ' ' + employee.Sobrenome, Cpf = employee.CPF },
                 ReferenceDate = DateTime.Now,
                 TotalDescontos = descontos,
                 SalarioLiquido = salarioLiquido,
-                Lancamentos = _lancamentoList
+                PlaymentEntry = _lancamentoList
             };
 
-            contraCheque.Add(folha);
+            payslip.Add(folha);
         }
 
-        return ResultService.Ok<IEnumerable<ContraChequeDto>>(contraCheque);
+        return ResultService.Ok<IEnumerable<PayslipDto>>(payslip);
 
     }
 
 
-    public async Task<ResultService> GetContraChequeByFuncionarioId(int id)
+    public async Task<ResultService> GetPayslipByEmployeeId(int id)
     {
         if (id == 0)
             return ResultService.Fail<EmployeeDto>("Informar Id do funcionario");
@@ -60,9 +60,9 @@ public class ContraChequeService : IContraChequeService
         decimal descontos = await TotalDescontos();
         var salarioLiquido = employee.SalarioBruto - (-descontos);
 
-        var contraCheque = new ContraChequeDto
+        var payslip = new ContraChequeDto
         {
-            Funcionario = new EmployeeContraChequeDto { Id = employee.Id, NomeCompleto = employee.Nome + ' ' + employee.Sobrenome, Cpf = employee.CPF },
+            Funcionario = new EmployeePayslipDto { Id = employee.Id, NameFull = employee.Nome + ' ' + employee.Sobrenome, Cpf = employee.CPF },
             ReferenceDate = DateTime.Now,
             TotalDescontos = descontos,
             SalarioLiquido = salarioLiquido,
@@ -80,8 +80,8 @@ public class ContraChequeService : IContraChequeService
 
         foreach (var lancamento in _lancamentoList)
         {
-            if (lancamento.Tipo == TipoLancamento.Desconto.ToString())
-                descontos = descontos + lancamento.Valor;
+            if (lancamento.Type == TipoLancamento.Desconto.ToString())
+                descontos = descontos + lancamento.Value;
         }
 
         return descontos;
@@ -89,11 +89,11 @@ public class ContraChequeService : IContraChequeService
 
     private async Task lancamentoDeDescontos(Employee employee)
     {
-        var lancamentoSalarioBruto = new LancamentosDto
+        var lancamentoSalarioBruto = new PlaymentEntryDto
         {
-            Tipo = TipoLancamento.Remuneracao.ToString(),
-            Descricao = "Salario Bruto",
-            Valor = employee.SalarioBruto
+            Type = TipoLancamento.Remuneracao.ToString(),
+            Description = "Salario Bruto",
+            Value = employee.SalarioBruto
 
         };
         
@@ -119,11 +119,11 @@ public class ContraChequeService : IContraChequeService
 
         decimal fgts = employee.SalarioBruto * fgtsValue;
 
-        var lancamento = new LancamentosDto
+        var lancamento = new PlaymentEntryDto
         {
-            Tipo = TipoLancamento.Desconto.ToString(),
-            Descricao = TiposDescontos.FGTS.ToString(),
-            Valor = fgts * (-1)
+            Type = TipoLancamento.Desconto.ToString(),
+            Description = TiposDescontos.FGTS.ToString(),
+            Value = fgts * (-1)
 
         };
 
@@ -135,11 +135,11 @@ public class ContraChequeService : IContraChequeService
         if (employee.DescontoSaude)
         {
 
-            var lancamento = new LancamentosDto
+            var lancamento = new PlaymentEntryDto
             {
-                Tipo = TipoLancamento.Desconto.ToString(),
-                Descricao = TiposDescontos.PlanoSaude.ToString(),
-                Valor = 10 * (-1)
+                Type = TipoLancamento.Desconto.ToString(),
+                Description = TiposDescontos.PlanoSaude.ToString(),
+                Value = 10 * (-1)
 
             };
 
@@ -151,11 +151,11 @@ public class ContraChequeService : IContraChequeService
     {
         if (employee.DescontoDental)
         {
-            var lancamento = new LancamentosDto
+            var lancamento = new PlaymentEntryDto
             {
-                Tipo = TipoLancamento.Desconto.ToString(),
-                Descricao = TiposDescontos.PlanoDental.ToString(),
-                Valor = 5 * (-1)
+                Type = TipoLancamento.Desconto.ToString(),
+                Description = TiposDescontos.PlanoDental.ToString(),
+                Value = 5 * (-1)
 
             };
             _lancamentoList.Add(lancamento);
@@ -172,22 +172,22 @@ public class ContraChequeService : IContraChequeService
             {
                 var descontoTransporte = employee.SalarioBruto * transporteValue;
 
-                var lancamento = new LancamentosDto
+                var lancamento = new PlaymentEntryDto
                 {
-                    Tipo = TipoLancamento.Desconto.ToString(),
-                    Descricao = TiposDescontos.ValeTransporte.ToString(),
-                    Valor = descontoTransporte * (-1)
+                    Type = TipoLancamento.Desconto.ToString(),
+                    Description = TiposDescontos.ValeTransporte.ToString(),
+                    Value = descontoTransporte * (-1)
 
                 };
                 _lancamentoList.Add(lancamento);
             }
             else
             {
-                var lancamento = new LancamentosDto
+                var lancamento = new PlaymentEntryDto
                 {
-                    Tipo = TipoLancamento.Desconto.ToString(),
-                    Descricao = TiposDescontos.ValeTransporte.ToString(),
-                    Valor = 0
+                    Type = TipoLancamento.Desconto.ToString(),
+                    Description = TiposDescontos.ValeTransporte.ToString(),
+                    Value = 0
 
                 };
                 _lancamentoList.Add(lancamento);
@@ -216,11 +216,11 @@ public class ContraChequeService : IContraChequeService
             desconto = 898.36m;
 
 
-        var lancamento = new LancamentosDto
+        var lancamento = new PlaymentEntryDto
         {
-            Tipo = TipoLancamento.Desconto.ToString(),
-            Descricao = TiposDescontos.IRPF.ToString(),
-            Valor = desconto * (-1)
+            Type = TipoLancamento.Desconto.ToString(),
+            Description = TiposDescontos.IRPF.ToString(),
+            Value = desconto * (-1)
 
         };
 
@@ -247,11 +247,11 @@ public class ContraChequeService : IContraChequeService
         if (salario > faixa3 && salario < faixa4)
             desconto = (salario * 0.14m);
 
-        var lancamento = new LancamentosDto
+        var lancamento = new PlaymentEntryDto
         {
-            Tipo = TipoLancamento.Desconto.ToString(),
-            Descricao = TiposDescontos.INSS.ToString(),
-            Valor = desconto * (-1)
+            Type = TipoLancamento.Desconto.ToString(),
+            Description = TiposDescontos.INSS.ToString(),
+            Value = desconto * (-1)
 
         };
 
