@@ -1,5 +1,4 @@
 using Application.Dto;
-using Application.Interface;
 using Application.Service;
 using AutoMapper;
 using Domain.Entities;
@@ -21,7 +20,7 @@ public class EmployeeServiceTest
     }
 
     [Test]
-    public async Task ShouldInsertEmployee_Fail()
+    public async Task ShouldNotInsertEmployeeNull()
     {
         var employeeDto = new EmployeeDto();
         var employee = new Employee();
@@ -34,10 +33,24 @@ public class EmployeeServiceTest
     }
 
     [Test]
-    public async Task ShouldInsertEmployee_Sucess()
+    public async Task ShouldInsertEmployeeWhitoutDataRequired()
+    {
+        var employeeDto = new EmployeeDto { Nome = "teste123" };
+        var employee = new Employee { Name = "teste123", GrossSalary = 1m, LastName = "123", Sector = "abc" };
+
+        _repository.Setup(x => x.InsertEmployee(employee)).ReturnsAsync(It.IsAny<int>);
+        _mapper.Setup(x => x.Map<Employee>(employeeDto)).Returns(employee);
+
+        var result = await _service.Insert(employeeDto);
+
+        Assert.False(result.IsSucess);
+    }
+
+    [Test]
+    public async Task ShouldInsertEmployeeWhitDataRequired()
     {
         var employeeDto = new EmployeeDto { Nome = "teste123", Sobrenome = "123", SalarioBruto = 1m, Setor = "abc" };
-        var employee = new Employee { Nome = "teste123", SalarioBruto = 1m, Sobrenome = "123", Setor = "abc" };
+        var employee = new Employee { Name = "teste123", GrossSalary = 1m, LastName = "123", Sector = "abc" };
 
         _repository.Setup(x => x.InsertEmployee(employee)).ReturnsAsync(It.IsAny<int>);
         _mapper.Setup(x => x.Map<Employee>(employeeDto)).Returns(employee);

@@ -6,28 +6,28 @@ namespace Api.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class ContraChequeController : ControllerBase
+    public class PayslipController : ControllerBase
     {
-        private readonly IContraChequeService _contrachequeService;
-        public ContraChequeController(IContraChequeService contrachequeService)
+        private readonly IPayslipService _service;
+        public PayslipController(IPayslipService contrachequeService)
         {
-            _contrachequeService = contrachequeService;
+            _service = contrachequeService;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetAllEmployee()
         {
-            var result = await _contrachequeService.GetAllFuncionario();
+            var result = await _service.GetAllEmployee();
             if (result.IsSucess)
                 return Ok(result);
             else
                 return BadRequest(result);
         }
 
-        [HttpGet("{id:int}", Name = "GetContraChequeById")]
-        public async Task<ActionResult<EmployeeDto>> GetContraChequeById(int id)
+        [HttpGet("{id:int}", Name = "GetPayslipById")]
+        public async Task<ActionResult<EmployeeDto>> GetPayslipById(int id)
         {
-            var result = await _contrachequeService.GetContraChequeByFuncionarioId(id);
+            var result = await _service.GetPayslipByEmployeeId(id);
             if (result.IsSucess)
                 return Ok(result);
             else

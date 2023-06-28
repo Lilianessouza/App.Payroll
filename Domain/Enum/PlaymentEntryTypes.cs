@@ -1,6 +1,6 @@
 ﻿namespace Domain.Enum;
 
-public enum TipoLancamento
+public enum PlaymentEntryTypes
 {
     Desconto,
     Remuneracao
