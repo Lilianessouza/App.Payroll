@@ -1,24 +1,23 @@
 # Folha de Pagamento
 
-Api para gerir as informações do contra cheque do funcionario 
-Informações:	
-	- Salario Liquido
-	- Descontos em folha
-		- Inss
-		- IrPf
-		- Fgts
-		- Beneficios ( vale alimentação, vale transporte e plano de saúde )
+Api para gerir as informaÃ§Ãµes do contra cheque do funcionario 
+InformaÃ§Ãµes:	
+- Salario Liquido
+- Descontos em folha
+ 	- ``INSS``
+	- ``IRPF``
+	- `` FGTS``
+	- `` Beneficios Descontados ( vale alimentaÃ§Ã£o, vale transporte e plano de saÃºde )``
 
-### Pré-requisitos
+### PrÃ©-requisitos
 
-Para executar o projeto é preciso ter o docker e docker compose instalados e configurado na máquina.
+Para executar o projeto Ã© preciso ter o docker e docker compose instalados e configurado na mÃ¡quina.
 
 [Download Docker](https://docs.docker.com/get-docker/) 
 
-Nele já estara a imagem do SqlServer e o build da aplicação que deverá rodar atraves da Url: 
-https://docs.docker.com/get-docker/
-link: https://localhost:32033/swagger/index.html
-[ContraCheque](https://localhost:32033/swagger/index.html)
+Nele jÃ¡ estara a imagem do SqlServer e o build da aplicaÃ§Ã£o que deverÃ¡ rodar atraves da Url: 
+
+[ContraCheque](https://localhost:32033/swagger/index.html/)
 
 ### Tecnologias utilizadas
 - ``.NetCore 6``
@@ -29,7 +28,7 @@ link: https://localhost:32033/swagger/index.html
 - ``Nunit``
 - ``Moq``
 
-## ?? Funcionalidades do projeto
+##  Funcionalidades do projeto
 
 - `employee/insert`: Insere um Funcionario na base de dados e retorna o Id cadastrado
 - `employee/update`: Atualizada Funcionario na base de dados, podendo desativar o mesmo atraves do campo actived
@@ -38,11 +37,12 @@ link: https://localhost:32033/swagger/index.html
 - `employee/getEmployeeById`: Busca Todos Funcionario cadastrados na base
 - `payslip/getPayslipAllEmployee`: Busca todos os Funcionario e retorna o calculdo do contracheque de cada um
 - `payslip/getPayslipByIdEmployee`: Busca o Funcionario por Id informado e retorna o calculdo do contracheque 
-expondo as informações de desconto e salario liquido do funcionario
+expondo as informaÃ§Ãµes de desconto e salario liquido do funcionario
 
-## ?? Executando o projeto 
+## Executando o projeto 
 
 - Clonar o projeto
-- Na raiz do projeto, onde está o arquivo .sln executar o comando
--  - docker-compose up para fazer o build da aplicação, baixar as imagens necessarias ( sqlserver) e subir os containers.
-	- 
+- Na raiz do projeto, onde estÃ¡ o arquivo .sln executar o seguinte comando: 
+  - ``docker-compose up`` .
+Este comando executa o build da aplicaÃ§Ã£o, baixa as imagens necessarias ( sqlserver) e sobe os containers.
+	
