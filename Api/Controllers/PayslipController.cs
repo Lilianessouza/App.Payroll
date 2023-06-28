@@ -15,9 +15,9 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetAllEmployee()
+        public async Task<ActionResult<IEnumerable<PayslipDto>>> GetAllPayslip()
         {
-            var result = await _service.GetAllEmployee();
+            var result = await _service.GetAllPayslipEmployee();
             if (result.IsSucess)
                 return Ok(result);
             else
@@ -25,7 +25,7 @@ namespace Api.Controllers
         }
 
         [HttpGet("{id:int}", Name = "GetPayslipById")]
-        public async Task<ActionResult<EmployeeDto>> GetPayslipById(int id)
+        public async Task<ActionResult<PayslipDto>> GetPayslipByIdEmployee(int id)
         {
             var result = await _service.GetPayslipByEmployeeId(id);
             if (result.IsSucess)

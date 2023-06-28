@@ -12,6 +12,11 @@ public class EmployeeDtoValidator : AbstractValidator<EmployeeDto>
             .NotNull()
             .WithMessage("Nome deve ser informado");
 
+        RuleFor(x => x.CPF)
+           .NotEmpty()
+           .NotNull()
+           .WithMessage("Cpf deve ser informado");
+
         RuleFor(x => x.Sobrenome)
             .NotEmpty()
             .NotNull()

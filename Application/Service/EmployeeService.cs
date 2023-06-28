@@ -28,9 +28,9 @@ public class EmployeeService : IEmployeeService
         if (entity == null)
             return ResultService.NoContent<EmployeeDto>("Funcionario não existe na base");
 
-        var result = await _repository.DeleteEmployee(entity);
+        await _repository.DeleteEmployee(entity);
 
-        return ResultService.Ok(_mapper.Map<EmployeeDto>(result));
+        return ResultService.Ok($"Funcionario(a) {entity.Name} removido da base");
     }
 
     public async Task<ResultService> GetAll()
@@ -105,9 +105,13 @@ public class EmployeeService : IEmployeeService
 
     public async Task<ResultService> Delete(EmployeeDto employeedto)
     {
+        if (employeedto == null)
+            return ResultService.Fail<EmployeeDto>("Informar Funcionario a ser excluido da base");
+
         var entity = _mapper.Map<Employee>(employeedto);
         var result = await _repository.DeleteEmployee(entity);
-        return ResultService.Ok(_mapper.Map<EmployeeDto>(result));
+
+        return ResultService.Ok($"Usuario {employeedto.UserName} removido");
 
     }
 }

@@ -63,14 +63,17 @@ namespace Payslip.Controllers
             if (result.IsSucess)
                 return new CreatedAtRouteResult("GetEmployee", new { id = employeeDto.Id }, employeeDto);
             else
-                return BadRequest();
+                return BadRequest(result);
         }
 
         [HttpPost("{id:int}")]
         public async Task<ActionResult<EmployeeDto>> Delete(int id)
         {
-            await _employeeService.Delete(id);
-            return Ok();
+            var result = await _employeeService.Delete(id);
+            if (result.IsSucess)
+                return Ok(result);
+            else
+                return BadRequest(result);
         }
 
     }

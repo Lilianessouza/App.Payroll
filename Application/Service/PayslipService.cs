@@ -18,7 +18,7 @@ public class PayslipService : IPayslipService
         _playmentEntryList = new List<PlaymentEntryDto>();
     }
 
-    public async Task<ResultService> GetAllEmployee()
+    public async Task<ResultService> GetAllPayslipEmployee()
     {
         var employees = await _repositoryEmployee.GetAllEmployee();
         var payslip = new List<PayslipDto>();
@@ -70,7 +70,7 @@ public class PayslipService : IPayslipService
 
         };
 
-        return ResultService.Ok<PayslipDto>(payslip);
+        return ResultService.Ok(payslip);
     }
 
 
