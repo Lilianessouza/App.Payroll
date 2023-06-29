@@ -4,6 +4,6 @@ namespace Application.Interface;
 
 public interface IPayslipService
 {
-    Task<ResultService> GetAllEmployee();
+    Task<ResultService> GetAllPayslipEmployee();
     Task<ResultService> GetPayslipByEmployeeId(int id);
 }

@@ -15,13 +15,14 @@ public class EmployeeRepository : IEmployeeRepository
 
     public async Task<IEnumerable<Employee>> GetAllEmployee()
     {
-       return await _context.Employee.ToListAsync();
+        return await _context.Employee.Where(x => x.Active == true).ToListAsync();
     }
 
     public async Task<Employee> GetEmployeeById(int id)
     {
         var result = await _context.Employee.FirstOrDefaultAsync(x => x.Id == id);
-        return result == null ? null : result;   
+
+        return result == null || result.Active == false ? null : result;
     }
 
     public async Task<int> InsertEmployee(Employee entity)
@@ -33,7 +34,7 @@ public class EmployeeRepository : IEmployeeRepository
 
     public async Task<Employee> UpdateEmployee(Employee entity)
     {
-        _context.Employee.Entry(entity).State= EntityState.Modified;
+        _context.Employee.Entry(entity).State = EntityState.Modified;
         await _context.SaveChangesAsync();
         return entity;
     }
@@ -44,5 +45,5 @@ public class EmployeeRepository : IEmployeeRepository
         await _context.SaveChangesAsync();
         return entity;
     }
-     
+
 }

@@ -5,7 +5,7 @@ using System.Net;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace ContraCheque.Controllers
+namespace Payslip.Controllers
 {
     [Route("api/v1/[controller]/[action]")]
     [ApiController]
@@ -63,14 +63,17 @@ namespace ContraCheque.Controllers
             if (result.IsSucess)
                 return new CreatedAtRouteResult("GetEmployee", new { id = employeeDto.Id }, employeeDto);
             else
-                return BadRequest();
+                return BadRequest(result);
         }
 
         [HttpPost("{id:int}")]
         public async Task<ActionResult<EmployeeDto>> Delete(int id)
         {
-            await _employeeService.Delete(id);
-            return Ok();
+            var result = await _employeeService.Delete(id);
+            if (result.IsSucess)
+                return Ok(result);
+            else
+                return BadRequest(result);
         }
 
     }
