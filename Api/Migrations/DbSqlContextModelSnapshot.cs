@@ -33,36 +33,36 @@ namespace Api.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime>("AdmissionDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<long>("CPF")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("DataAdmicao")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("DescontoDental")
+                    b.Property<bool>("DiscountDental")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("DescontoSaude")
+                    b.Property<bool>("DiscountSaude")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("DescontoVale")
+                    b.Property<bool>("DiscountVale")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<decimal>("SalarioBruto")
+                    b.Property<decimal>("GrossSalary")
                         .HasPrecision(10, 2)
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<string>("Setor")
+                    b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Sobrenome")
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Sector")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
