@@ -35,8 +35,8 @@ public class EmployeeServiceTest
     [Test]
     public async Task ShouldInsertEmployeeWhitoutDataRequired()
     {
-        var employeeDto = new EmployeeDto { Nome = "teste123" };
-        var employee = new Employee { Name = "teste123", GrossSalary = 1m, LastName = "123", Sector = "abc" };
+        var employeeDto = new EmployeeDto { Name = "teste123" };
+        var employee = new Employee { Name = "teste123", GrossSalary = 1m, LastName = "abc", Sector = "abc"};
 
         _repository.Setup(x => x.InsertEmployee(employee)).ReturnsAsync(It.IsAny<int>);
         _mapper.Setup(x => x.Map<Employee>(employeeDto)).Returns(employee);
@@ -49,8 +49,8 @@ public class EmployeeServiceTest
     [Test]
     public async Task ShouldInsertEmployeeWhitDataRequired()
     {
-        var employeeDto = new EmployeeDto { Nome = "teste123", Sobrenome = "123", SalarioBruto = 1m, Setor = "abc" };
-        var employee = new Employee { Name = "teste123", GrossSalary = 1m, LastName = "123", Sector = "abc" };
+        var employeeDto = new EmployeeDto { Name = "teste123", LastName = "123", GrossSalary = 1m, Sector = "abc", CPF = 123 };
+        var employee = new Employee { Name = "teste123", GrossSalary = 1m, LastName = "123", Sector = "abc", CPF = 123 };
 
         _repository.Setup(x => x.InsertEmployee(employee)).ReturnsAsync(It.IsAny<int>);
         _mapper.Setup(x => x.Map<Employee>(employeeDto)).Returns(employee);

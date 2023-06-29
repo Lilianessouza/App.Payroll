@@ -15,3 +15,4 @@ public class Employee : Audit
     public bool DiscountVale { get;set; }
 
 }
+
